@@ -1,14 +1,76 @@
-class Validator:
-    pass
+from abc import ABC, abstractmethod
+
+class Validator (ABC):
+    def __init__(self):
+        pass
+    
+    def __set_name__(self, instance, name) -> None:
+        self.protected_name = "_" + name
+
+    def __get__(self, instance, owner):
+        return getattr(instance, self.protected_name)
+    
+    def __set__(self, instance, value) -> None:
+        if not self.validate(value):
+            pass
+        setattr(instance, self.protected_name, value)
+
+    @abstractmethod
+    def validate(self, value) -> None:
+        pass
 
 
-class Number:
-    pass
+class Number (Validator):
+    def __init__(self,
+                 value_type: type,
+                 min_value: int,
+                 max_value: int) -> None:
+        self._value_type = value_type
+        self._min_value = min_value
+        self._max_value = max_value
+        
+    def validate(self, value) -> None:
+        if value not in self._value_type:
+            raise TypeError("Quantity should be integer")
+        if value < self._min_value or value > self._max_value:
+            raise ValueError("Quantity should not be less than "
+                             f"{self._min_value} and greater than "
+                             f"{self._max_value}")
+        return
 
 
-class OneOf:
-    pass
+class OneOf (Validator):
+    def __init__(self,
+                 options: list[str]) -> None:
+        self._options = options
+
+    def validate(self, value) -> None:
+        if value not in self._options:
+            raise ValueError(f"Expected {value} to be one of {self._options}")
+
+        return
 
 
 class BurgerRecipe:
-    pass
+    _buns = Number(int, 2, 3)
+    _cheese = Number(int, 0, 2)
+    _tomatoes = Number(int, 0, 3)
+    _cutlets = Number(int, 1, 3)
+    _eggs = Number(int, 0, 2)
+    _sauce = OneOf(["ketchup", "mayo", "burger"])
+
+    def __init__(self,
+                 buns: int,
+                 cheese: int,
+                 tomatoes: int,
+                 cutlets: int,
+                 eggs: int,
+                 sauce: str) -> None:
+        self._buns = buns
+        self._cheese = cheese
+        self._tomatoes = tomatoes
+        self._cutlets = cutlets
+        self._eggs = eggs
+        self._sauce = sauce
+
+    print("burger will be created")
