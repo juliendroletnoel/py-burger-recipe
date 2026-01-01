@@ -50,12 +50,12 @@ class OneOf (Validator):
 
 
 class BurgerRecipe:
-    _buns = Number(int, 2, 3)
-    _cheese = Number(int, 0, 2)
-    _tomatoes = Number(int, 0, 3)
-    _cutlets = Number(int, 1, 3)
-    _eggs = Number(int, 0, 2)
-    _sauce = OneOf(["ketchup", "mayo", "burger"])
+    buns = Number(int, 2, 3)
+    cheese = Number(int, 0, 2)
+    tomatoes = Number(int, 0, 3)
+    cutlets = Number(int, 1, 3)
+    eggs = Number(int, 0, 2)
+    sauce = OneOf(["ketchup", "mayo", "burger"])
 
     def __init__(self,
                  buns: int,
@@ -64,11 +64,11 @@ class BurgerRecipe:
                  cutlets: int,
                  eggs: int,
                  sauce: str) -> None:
-        self._buns = buns
-        self._cheese = cheese
-        self._tomatoes = tomatoes
-        self._cutlets = cutlets
-        self._eggs = eggs
-        self._sauce = sauce
+        self.buns = buns
+        self.cheese = cheese
+        self.tomatoes = tomatoes
+        self.cutlets = cutlets
+        self.eggs = eggs
+        self.sauce = sauce
 
     print("burger will be created")
