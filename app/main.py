@@ -39,12 +39,12 @@ class Number (Validator):
 class OneOf (Validator):
     def __init__(self,
                  options: tuple) -> None:
-        self._options = options
+        self.options = options
 
     def validate(self, value: str) -> None:
-        if value not in self._options:
+        if value not in self.options:
             raise ValueError(f"Expected {value} to be "
-                             f"one of {(self._options)}.")
+                             f"one of {(self.options)}.")
 
         return
 
