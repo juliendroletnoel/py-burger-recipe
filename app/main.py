@@ -28,7 +28,7 @@ class Number (Validator):
 
     def validate(self, value: int) -> None:
         if not isinstance(value, self.value_type) :
-            raise TypeError("Quantity should be integer.")
+            raise TypeError(f"Quantity should be {self.value_type}.")
         if value < self.min_value or value > self.max_value:
             raise ValueError("Quantity should not be less than "
                              f"{self.min_value} and greater than "
