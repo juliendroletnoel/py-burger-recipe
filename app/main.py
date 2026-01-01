@@ -9,8 +9,7 @@ class Validator (ABC):
         return getattr(instance, self.protected_name)
 
     def __set__(self, instance: object, value: object) -> None:
-        if not self.validate(value):
-            pass
+        self.validate(value)
         setattr(instance, self.protected_name, value)
 
     @abstractmethod
@@ -23,17 +22,17 @@ class Number (Validator):
                  value_type: type,
                  min_value: int,
                  max_value: int) -> None:
-        self._value_type = value_type
-        self._min_value = min_value
-        self._max_value = max_value
+        self.value_type = value_type
+        self.min_value = min_value
+        self.max_value = max_value
 
     def validate(self, value: int) -> None:
-        if not isinstance(value, self._value_type) :
-            raise TypeError("Quantity should be integer")
-        if value < self._min_value or value > self._max_value:
+        if not isinstance(value, self.value_type) :
+            raise TypeError("Quantity should be integer.")
+        if value < self.min_value or value > self.max_value:
             raise ValueError("Quantity should not be less than "
-                             f"{self._min_value} and greater than "
-                             f"{self._max_value}")
+                             f"{self.min_value} and greater than "
+                             f"{self.max_value}.")
         return
 
 
@@ -44,7 +43,8 @@ class OneOf (Validator):
 
     def validate(self, value: str) -> None:
         if value not in self._options:
-            raise ValueError(f"Expected {value} to be one of {self._options}")
+            raise ValueError(f"Expected {value} to be "
+                             f"one of {(self._options)}.")
 
         return
 
