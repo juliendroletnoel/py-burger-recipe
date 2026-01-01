@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class Validator (ABC):
     def __set_name__(self, instance: object, name: str) -> None:
-        self.protected_name: str = "_" + name
+        self.protected_name = "_" + name
 
     def __get__(self, instance: object, owner: object = None) -> object:
         return getattr(instance, self.protected_name)
